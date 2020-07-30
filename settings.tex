@@ -1,0 +1,73 @@
+\documentclass[12pt, reqno,dvipsnames]{amsbook}
+\makeatletter
+\usepackage{textcmds}  % amsrefs needs this, but it has to be loaded early to avoid re-defs.
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[english]{babel}
+\usepackage[margin=1in]{geometry}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \setcounter{secnumdepth}{2}
+% \setcounter{tocdepth}{2}
+% \synctex=-1
+% \usepackage{setspace}
+
+\usepackage{mathtools}
+\usepackage{amsmath, amssymb, amsfonts, amstext, verbatim, amsthm, mathrsfs}
+\usepackage[mathcal]{eucal}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{tikz-cd}
+\usepackage{tikz} %clashes with color package option "usenames"
+\usetikzlibrary{matrix,arrows}
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{xspace}
+\usepackage{showlabels}
+
+\usepackage[modulo]{lineno}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,citebordercolor={0 0 1},urlbordercolor={0 0 1},linkbordercolor={0 0 1}]{hyperref} %needs to be loaded after most things
+\usepackage[shortalphabetic]{amsrefs} %needs to be loaded after hyperref
+\usepackage[nameinlink]{cleveref}
+
+
+\usepackage{import}%---{Import tex files}
+\import{./}{preamble}%---{Import preamble.tex in the folder}
+
+
+%-theorem types-
+%---------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{ansatz}[thm]{Ansatz}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ques}[thm]{Question}
+
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{const}[thm]{Construction}
+\newtheorem{principle}[thm]{Principle}
+\newtheorem{fact}[thm]{Fact}
+\newtheorem{ex}[thm]{Exercise}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{ans}[thm]{Answer}
+
+
+\theoremstyle{remark}
+\newtheorem*{Ans}{Answer}
+\newtheorem*{rmk}{Remark}
+
+
+\AtEndDocument{%
+\bibliographystyle{alpha}
+\nocite{*}
+\bibliography{./ref.bib}
+}

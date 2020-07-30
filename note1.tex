@@ -1,0 +1,245 @@
+\chapter{DG Categories}
+
+\section*{Philosophy of Noncommutative Algebraic Geometry}
+
+\begin{ques}
+What is a noncommutative (NC) scheme? 
+\end{ques}
+
+There are mainly two answers to this question. 
+
+\begin{ans}[Grothendieck, Gabriel, Manin, etc]
+NC scheme = abelian category. \\ 
+In particular, a classical commutative scheme $ X $ can be recovered from the abelian category $ \QCoh(X) $ (by Tannakian duality).
+\end{ans}
+
+\begin{ans}[Drinfeld, Kontsevich, etc]
+NC scheme = triangulated category. \\
+In particular, a classical commutative scheme corresponds to the derived category 
+$ \cD(\QCoh(X)) $.
+\end{ans}
+
+But there are some technical problems with the notion of triangulated categories.
+\begin{enumerate}
+    \item Tensor products are not triangulated. 
+    \item Functor categories with triangulated target are not triangulated. 
+    \item Hochschild (co)homology cannot be defined in a reasonable way for triangulated categories.
+\end{enumerate}
+
+There is a solution to these problems by Bondal-Kapranov, Keller, Drinfeld, T\"{o}en, etc, and the solution is to redefine noncommutative scheme so that it contains more structure and it turns out the structure is well-captured by dg categories, and we have impose suitable equivalence relations because there are too many dg categories and we do not want to distinguish them, so we consider them up to derived Morita equivalences. 
+\[ \text{NC scheme} = \text{dg category}/\text{derived Morita equivalence} . \]
+
+The aim of the first part of this course is to make this precise, and secondly, to study many examples. 
+
+The aim of th second part of this course is to study NC symplectic structures and in particular NC cotangent bundles (i.e. Calabi Yau-completions). 
+
+
+\section{DG Categories}
+
+\subsection{The Monoidal Base Categories} 
+
+Let $ k $ be a commutative ring. Let $ \cC{k} $ be the category of dg $ k $-modules, i.e. the category of complexes 
+\[\begin{tikzcd}
+\cdots \ar[r] & V^{p} \ar[r] & V^{p+1} \ar[r] & \cdots 
+\end{tikzcd}\]
+with $ \bigotimes $ the tensor product over $ k $ of complexes, 
+\[ (V\otimes W)^{n} = \bigoplus_{p+q=n} V^{p}\otimes_{k}W^{q} \]
+of cohomological degree, with differential 
+\[ d(v\otimes w) = (dv)\otimes w + (-1)^{|v|}v\otimes dw \]
+where $ |v| $ is the degree of $ v $. 
+The tensor product of morphisms of complexes is defined naturally. 
+
+$ (\cC{k}, \bigotimes) $ is a monoidal category with monoidal unit 
+\[ k = \left[ \begin{tikzcd}
+\cdots \ar[r] & 0 \ar[r] & k \ar[r] & 0 \ar[r] & \cdots
+\end{tikzcd} \right] \]
+and it is also {\bf symmetric}, i.e. there is a natural isomorphism for each pair of objects $ V,W $
+\[ \begin{tikzcd}[sep=tiny]
+V\bigotimes W \ar[r,"\sim"] & W\bigotimes V \\
+v\otimes w \ar[r,mapsto] & (-1)^{|v| |w|}w\otimes v
+\end{tikzcd} \]
+which is called Koszul sign rule. 
+
+Moreover, $ (\cC{k}, \bigotimes) $ is {\bf closed}, i.e. the functor 
+$ (-)\bigotimes V: \cC{k} \to \cC{k} $ 
+has a right adjoint, the {\bf internal hom} 
+$ \iHom_{k}(V,-): \cC{k} \to \cC{k} $, 
+\[ \Hom_{\cC{k}}(U\bigotimes V,W) \cong \Hom_{\cC{k}}(U, \iHom_{k}(V,W). \]
+Explicitly, 
+\[ \mathbf{Hom}^{n}_{k}(V,W) = \{ f:V \to W, k \text{-linear morphism of graded objects that is homogeneous of degree } n \} \]
+\[\begin{tikzcd}
+\cdots \ar[r] & V^{p}\ar[dr,"f^{p}"] \ar[r,"d_{V}"] & V^{p+1} \ar[r] \ar[dr,"f^{p+1}"] & \cdots & \\
+& \cdots \ar[r] & W^{p+n} \ar[r,"d_{W}"] & W^{p+n+1} \ar[r] & \cdots
+\end{tikzcd}\]
+which does not necessarily commute, with differential 
+\[ d(f) = d_{W}\circ f - (-1)^{|f|}f\circ d_{V} \]
+Note that $ f: V \to W $ is a morphism of complexes if and only if $ |f| = 0 $ and $ d(f) = 0 $. 
+
+\begin{defn}
+The {\bf shift} of $ V $ by $ 1 $ is denoted by $ V[1] $ where $ V[1]^{p} \coloneqq V^{p+1} $ and $ d_{V[1]}\coloneqq -d_{V} $.
+\end{defn}
+
+For convenience, we denote $ V[n] = (V[n-1])[1] $ which is defined inductively. 
+
+Note that $ f\in\mathbf{Hom}^{n}_{k}(V,W) $ is a morphism $ V \to W[n] $ of complexes if and only if $ |f| = n $ and $ d(f) = 0 $. 
+
+
+\subsection{DG Categories}
+
+\begin{defn}[Kelly, 1965]
+A {\bf dg category} $ \cA $ is a category enriched over $ \cC{k}, \bigotimes) $, i.e. we have 
+\begin{itemize}
+    \item a class of objects $ Ob(\cA) $, and
+    \item complexes $ \cA(X,Y) $ for all $ X,Y \in Ob(\cA) $, with
+    \item composition morphisms
+    \[ \cA(Y,Z) \bigotimes\cA(X,Y) \longrightarrow \cA(X,Z) \]
+    for all $ X,Y,Z \in Ob(\cA) $ which are associative and unital.
+\end{itemize}
+\end{defn}
+
+\begin{eg}
+\begin{enumerate}
+    \item $ (\cC{k}, \iHom_{k}) $ is a dg category, denoted by $ \cC_{dg}k $.
+    \item A dg category with single object $ \ast $ is just a dg algebra $ A = \cA(\ast,\ast) $. In particular, every ordinary algebra $ A $ can be viewed as a dg algebra concentrated in degree 0, thus a dg category. 
+    \item Consider the graded quiver $ Q $
+    \[ \begin{tikzcd}\label{quiver}
+    & 2 \ar[dr,"\alpha"] & \\
+    1 \ar[ur,"\beta"]\ar[rr,"\gamma"] &  & 3
+    \end{tikzcd}, |\alpha| = |\beta| = 0, |\gamma| = -1. \]
+    The path category $ \cP Q $ has objects $ 1,2,3 $ and the morphisms $ x \to y $ are all formal $ k $-linear combinations of paths from $ x $ to $ y $ of length greater than or equal to $ 0 $. 
+    In particular, we have the lazy path $ e_{x}:x \to x $ of length $ 0 $. 
+    Given the graded quiver, we have
+    \[\begin{array}{ll}
+        \cP Q(x,x) & = ke_{x}, \forall x\in Ob(\cP Q)  \\
+        \cP Q(1,2) & = k\beta \\
+        \cP Q(2,3) & = k\alpha \\
+        \cP Q(1,3) & = \underset{-1}{\underbrace{k\gamma}} \oplus \underset{0}{\underbrace{k\alpha\beta}}
+    \end{array}\]
+    $ \cP Q $ has a unique differential $ d $ such that $ d(\gamma) = \alpha\beta $. 
+    The associated {\bf dg path algebra} is the dg matrix algebra 
+    \[ A = (\bigoplus_{x,y\in Q_{0}} \cP Q(x,y),d) \] 
+    \item Let $ B $ be a $ k $-algebra, $ \Mod(B) $ be commutative algebra of all (right) $ B $-modules. Then $ \cC_{dg}B = \cC_{dg}\Mod(B) $ has 
+    \begin{itemize}
+        \item objects all complexes of $ B $-modules, and 
+        \item morphisms $ \cC_{dg}B(X,Y) = \iHom_{B}(X,Y) $ defined like $ \iHom_{k}(-,-) $. 
+    \end{itemize}
+\end{enumerate}
+\end{eg}
+
+\begin{defn}
+Let $ \cA $ be a dg category. 
+\begin{enumerate}
+    \item The $ 0 $-cycle category $ \cZ^{0}\cA $ has 
+    \begin{itemize}
+        \item the same objects as $ \cA $, and
+        \item morphisms $ \cZ^{0}\cA(X,Y) = Z^{0}\cA(X,Y) $.
+    \end{itemize}
+    \item The $ 0 $-homology category $ \cH^{0}\cA $ has 
+    \begin{itemize}
+        \item the same objects as $ \cA $, and
+        \item morphisms $ \cH^{0}\cA(X,Y) = H^{0}\cA(X,Y) $.
+    \end{itemize}
+\end{enumerate}
+\end{defn}
+
+\begin{eg}
+\begin{enumerate}
+    \item $ \cZ^{0}\cC_{dg}k = \cC{k} $ the category of all complexes of $ k $-modules. \\ 
+   $ \cH^{0}\cC_{dg}k = \cK{k} $ the homotopy category of $ \cC{k} $. Given two morphisms $ f,g\in\cC{k}(X,Y) $, we have $ \bar{f} = \bar{g} $ in $ \cK{k} $ if and only if there exists a map $ h\in \mathbf{Hom}^{-1}_{k}(X,Y) $ such that 
+    $ f-g = d(h) = d_{X}\circ h + h\circ d_{Y}. $
+    \item Let $ \cA = A $ be a dg algebra, then 
+    \[ \cH^{0}\cA = H^{0}A. \]
+    \item Let $ Q $ be the graded quiver and $ \cA = \cP{Q} $ the associated path category as defined in Example 1.3.\ref{quiver}. Then 
+    \[\cZ^{0}\cA: \begin{tikzcd}
+    & 2 \ar[dr,"\alpha"] & \\
+    1 \ar[ur,"\beta"] &  & 3
+    \end{tikzcd}\]
+    and 
+    \[ \cH^{0}\cA: \begin{tikzcd}
+    & 2 \ar[dr,"\alpha"] & \\
+    1 \ar[ur,"\beta"] &  & 3
+    \end{tikzcd} \mod (\alpha\beta = 0). \]
+    \item $ \cZ^{0}\cC_{dg}B = \cC{B} $ the category of all complexes of $ B $-modules. \\
+    $ \cH^{0}\cC_{dg}B = \cK{B} $ the homotopy category of $ \cC{B} $.
+\end{enumerate}
+\end{eg}
+
+\begin{defn}
+Let $ \cA $ be a dg category. The {\bf opposite dg category} $ \cA^{op} $ has
+\begin{itemize}
+    \item the same objects as $ \cA $, and 
+    \item morphisms $ \cA^{op}(X,Y) = \cA(Y,X) $, with 
+    \item composition $ f \circ_{op} g = (-1)^{|f||g|}g\circ f $. 
+\end{itemize}
+\end{defn}
+
+\begin{eg}
+When $ \cA = A $ is a dg algebra, $ \cA^{op} = A^{op} $ is the  opposite dg algebra. 
+\end{eg}
+
+\begin{defn}
+Let $ \cA,\cB $ be dg categories. The tensor product $ \cA\bigotimes\cB $ has 
+\begin{itemize}
+    \item objects $ (X,Y), X\in Ob(\cA), Y\in Ob(\cB) $, and 
+    \item morphisms $ (\cA\bigotimes\cB)((X,Y),(X',Y')) \coloneqq \cA(X,X') \bigotimes \cB(Y,Y') $, with
+    \item composition of morphisms
+    \[ (f\otimes g)(f'\otimes g') = (-1)^{|g||f'|} ff'\otimes gg'. \]
+\end{itemize}
+\end{defn}
+
+\begin{eg}[tensor product]
+Let $ \cA : 1 \to 2 $ and $ \cB : 3 \to 4 $. Then 
+\[ \cA\bigotimes\cB: \begin{tikzcd}
+(1,3) \ar[r]\ar[d] & (2,3)\ar[d] \\
+(1,4) \ar[r]\ar[ur,equal] & (2,4)
+\end{tikzcd}\]
+\end{eg}
+
+\begin{defn}
+Let $ \cA,\cB $ be dg categories. A {\bf dg functor} $ F: \cA \to \cB $ is given by 
+\begin{itemize}
+    \item a map $ F: Ob(\cA) \to Ob(\cB) $, and
+    \item morphisms of complexes $ F(X,Y): \cA(X,Y) \to \cB(FX,FY) $ which are compatible with units and compositions.
+\end{itemize}
+It is a {\bf quasi-equivalence} if $ \{F(X,Y)\} $ are quasi-isomorphisms for all $ X,Y\in Ob(\cA) $, and the functor $ \cH^{0}F:\cH^{0}\cA \to \cH^{0}\cB $ is an equivalence of categories. 
+\end{defn}
+
+For a complex $ M\in Ob(\cC{k}) $, define the truncation 
+\[ \tau_{\leq0}M = \left[\begin{tikzcd} 
+\cdots \ar[r] & M^{-2} \ar[r] & M^{-1} \ar[r] & Z^{0}M \ar[r] & 0 \ar[r] & \cdots
+\end{tikzcd}\right] \]
+
+\begin{eg}[dg functors]
+Let $ \cA $ be a dg category. Let $ \tau_{\leq0}\cA $ be the dg category with the same objects and morphisms
+\[ (\tau_{\leq0}\cA)(X,Y) = \tau_{\leq0}\cA(X,Y). \]
+(composition is well-defined). We have dg functors
+\[\begin{tikzcd}
+\tau_{\leq0}\cA \ar[r, hook] \ar[d, two heads] & \cA \\
+\cH^{0}\cA &
+\end{tikzcd}\]
+They are both quasi-equivalence if and only $ \cH^{p}\cA(X,Y) = 0, \forall p\neq 0, \forall X,Y\in Ob(\cA) $.
+\end{eg}
+
+\begin{ex}
+\begin{enumerate}
+    \item Let $ \cA $ be the dg path algebra defined by 
+    \[ \begin{tikzcd}
+    1\ar[loop left,"t_{1}"]\ar[r, shift left,"\alpha"] & 2 \ar[l,shift left,"\bar{\alpha}" ] \ar[loop right,"t_{2}"]  
+    \end{tikzcd}\]
+    with $ \vert\alpha\vert=\vert\bar{\alpha}\vert=0, \vert t_{i} \vert =-1, dt_{1}=-\alpha\bar{\alpha}, dt_{2}=\alpha\bar{\alpha} $. 
+    Notice 
+    \begin{itemize}
+        \item $ H^{0}A $ is the preprojective algebra of type 
+        \[ A_{2}: \begin{tikzcd}
+        \bullet \ar[r, dash] & \bullet
+        \end{tikzcd}\]
+        \item $ H^{-1}A \neq 0 $, for instance, 
+        \[ \begin{array}{lll}
+            d(\alpha t_{1}) = \alpha(\bar{\alpha}\alpha), & d(t_{2}\alpha) = (\alpha\bar{\alpha})\alpha, & d(\alpha t_{1}-t_{2}\alpha) = 0 
+        \end{array}  \]
+        thus $ 0 \neq \alpha t_{1}-t_{2}\alpha \in H^{-1}(A) $. Show that 
+    \end{itemize}
+\end{enumerate}
+\end{ex}
+
+
